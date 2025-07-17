@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Jobs\SendMailJob;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
@@ -34,7 +35,7 @@ class SendMail extends Component
             'content' => $this->content,
         ];
 
-        Mail::to($user->email)->send(new WelcomeMail($user));
+        SendMailJob::dispatch($user);
 
         $this->successMessage = "✅ Mail sent to {$this->email}!";
         $this->reset(['name', 'email', 'content']);
