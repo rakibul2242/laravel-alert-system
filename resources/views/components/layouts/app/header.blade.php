@@ -7,14 +7,18 @@
         <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-            <a href="{{ route('dashboard') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
+            {{-- <a href="{{ route('mailer') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
                 <x-app-logo />
-            </a>
+            </a> --}}
 
             <flux:navbar class="-mb-px max-lg:hidden">
-                <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
+                <flux:navbar.item :href="route('mailer')" :current="request()->routeIs('mailer')" wire:navigate>
+                    {{ __('Laravel Mailer') }}
                 </flux:navbar.item>
+
+                <flux:navbar.item :href="route('queue-mail')" :current="request()->routeIs('queue-mail')" wire:navigate>
+                    {{ __('Queue Mail') }}
+                     </flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />

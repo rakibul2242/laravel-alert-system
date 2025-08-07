@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
 use App\Events\SendMailNotification;
 
-class SendMail extends Component
+class QueueMail extends Component
 {
     public $name = '';
     public $email = '';
@@ -36,8 +36,8 @@ class SendMail extends Component
             'content' => $this->content,
         ];
 
-
-    Mail::to($user)->send(new WelcomeMail($user));
+        // queue
+        SendMailJob::dispatch($user);
 
         $this->successMessage = "✅ Mail sent to {$this->email}!";
         $this->reset(['name', 'email', 'content']);
@@ -45,6 +45,6 @@ class SendMail extends Component
 
     public function render()
     {
-        return view('livewire.send-mail');
+        return view('livewire.queue-mail');
     }
 }
