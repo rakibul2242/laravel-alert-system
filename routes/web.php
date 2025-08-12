@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Livewire\SendMail;
+use App\Http\Controllers\PostController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +32,11 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('user/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('user/posts', [PostController::class, 'store'])->name('posts.store');
 });
 
 require __DIR__ . '/auth.php';
