@@ -121,6 +121,30 @@
         </flux:navlist>
     </flux:sidebar>
 
+    {{-- Pusher Live Updates --}}
+    <div id="live-updates" class="fixed top-20 right-4 space-y-2 max-w-xs"></div>
+    <script>
+        Pusher.logToConsole = true;
+
+        const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+            cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
+        });
+
+        const channel = pusher.subscribe('my-channel');
+        channel.bind('post-created', function (data) {
+            const updatesDiv = document.getElementById('live-updates');
+
+            const card = document.createElement('div');
+            card.className = 'bg-slate-800 border border-emerald-600 rounded-lg p-3 shadow-md';
+            card.innerHTML = `
+                <h2 class="text-emerald-400 font-bold">${data.title}</h2>
+                <p class="text-slate-300 text-sm">${data.body}</p>
+            `;
+
+            updatesDiv.prepend(card);
+            setTimeout(() => card.remove(), 20000);
+        });
+    </script>
     {{ $slot }}
 
     @fluxScripts
